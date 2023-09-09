@@ -155,20 +155,24 @@ function pencarianData() { // fungsi untuk Mencari Data
 }
 
 function hapusData() { // fungsi untuk Menghapus Data
-    console.log("Masukkan nama yang akan dihapus:");
-    readline.question("", (namaHapus) => {
-        const indeksHapus = databaseKontak.findIndex((kontak) =>
-            kontak.nama.toLowerCase() === namaHapus.toLowerCase()
-        );
+    console.log("Masukkan indeks data yang akan dihapus:");
+    readline.question("", (inputIndeks) => {
+        const indeksHapus = parseInt(inputIndeks);
 
-        if (indeksHapus !== -1) {
-            const kontakHapus = databaseKontak.splice(indeksHapus, 1);
-            console.log(`Data ${kontakHapus[0].nama} telah dihapus.`);
+        if (!isNaN(indeksHapus) && indeksHapus >= 0 && indeksHapus < databaseKontak.length) {
+            readline.question(`Apakah Anda yakin ingin menghapus data pada indeks ${indeksHapus}? (y/n)`, (jawaban) => {
+                if (jawaban === "y") {
+                    const kontakHapus = databaseKontak.splice(indeksHapus, 1);
+                    console.log(`Data pada indeks ${indeksHapus} telah dihapus.`);
+                } else {
+                    console.log("Penghapusan data dibatalkan.");
+                }
+                kembali();
+            });
         } else {
-            console.log("Data tidak ditemukan.");
+            console.log("Indeks data tidak valid.");
+            kembali();
         }
-
-        kembali();
     });
 }
 
